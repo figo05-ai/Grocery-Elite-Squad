@@ -235,14 +235,6 @@ class MealController extends Controller
         }
     }
 
-    /**
-     * Get all meals with filtering and sorting.
-     *
-     * Filtering is handled by the MealFilter pipeline (->filter($request)).
-     * Sorting stays inline — ORDER BY is not a filter concern.
-     * The item mapping stays inline to preserve the exact key order this endpoint returns,
-     * which differs from the base MealResource shape.
-     */
     public function index(Request $request): JsonResponse
     {
         try {
@@ -337,9 +329,6 @@ class MealController extends Controller
         }
     }
 
-    /**
-     * Get recommended meals
-     */
     public function recommendations(Request $request): JsonResponse
     {
         try {
@@ -392,9 +381,6 @@ class MealController extends Controller
         }
     }
 
-    /**
-     * Get single meal
-     */
     public function show(string $id): JsonResponse
     {
         try {
