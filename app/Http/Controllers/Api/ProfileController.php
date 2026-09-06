@@ -114,16 +114,7 @@ class ProfileController extends Controller
     public function updateImage(Request $request): JsonResponse
     {
         try {
-            if (count($request->allFiles()) > 1) {
-                return response()->json([
-                    'success' => false,
-                    'message' => self::PROFILE_SINGLE_IMAGE_MESSAGE,
-                    'errors' => ['image' => [self::PROFILE_SINGLE_IMAGE_MESSAGE]],
-                ], 422);
-            }
-
-            $uploaded = $request->file('image');
-            if (is_array($uploaded)) {
+            if (count($request->allFiles()) > 1 || is_array($request->file('image'))) {
                 return response()->json([
                     'success' => false,
                     'message' => self::PROFILE_SINGLE_IMAGE_MESSAGE,
@@ -145,16 +136,13 @@ class ProfileController extends Controller
 
             $user = $request->user();
 
-            // Delete old image if exists
             if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
                 Storage::disk('public')->delete($user->profile_image);
             }
 
-            // Store new image
             $image = $request->file('image');
             $path = $image->store('profile-images', 'public');
 
-            // Update user
             $user->update(['profile_image' => $path]);
 
             return response()->json([
@@ -287,12 +275,10 @@ class ProfileController extends Controller
                 ], 404);
             }
 
-            // Delete image from storage
             if (Storage::disk('public')->exists($user->profile_image)) {
                 Storage::disk('public')->delete($user->profile_image);
             }
 
-            // Update user
             $user->update(['profile_image' => null]);
 
             return response()->json([
@@ -314,7 +300,7 @@ class ProfileController extends Controller
     public function sessions(Request $request): JsonResponse
     {
         $user = $request->user();
-        $currentTokenId = $request->user()->currentAccessToken()?->id;
+        $currentTokenId = $user->currentAccessToken()?->id;
 
         $tokens = $user->tokens()->get()->map(function ($token) use ($currentTokenId) {
             return [
@@ -428,9 +414,24 @@ class ProfileController extends Controller
                     default => 'Processing',
                 },
                 'positions' => [
-                    ['stage' => 'arriving', 'label' => 'Arriving', 'completed' => in_array($order->status, ['shipping', 'out_for_delivery', 'delivered']), 'timestamp' => $order->shipping_at?->toIso8601String()],
-                    ['stage' => 'out_for_delivery', 'label' => 'Out for delivery', 'completed' => in_array($order->status, ['out_for_delivery', 'delivered']), 'timestamp' => $order->out_for_delivery_at?->toIso8601String()],
-                    ['stage' => 'delivered', 'label' => 'Delivered', 'completed' => $order->status === 'delivered', 'timestamp' => $order->delivered_at?->toIso8601String()],
+                    [
+                        'stage'     => 'arriving',
+                        'label'     => 'Arriving',
+                        'completed' => in_array($order->status, ['shipping', 'out_for_delivery', 'delivered']),
+                        'timestamp' => $order->shipping_at?->toIso8601String(),
+                    ],
+                    [
+                        'stage'     => 'out_for_delivery',
+                        'label'     => 'Out for delivery',
+                        'completed' => in_array($order->status, ['out_for_delivery', 'delivered']),
+                        'timestamp' => $order->out_for_delivery_at?->toIso8601String(),
+                    ],
+                    [
+                        'stage'     => 'delivered',
+                        'label'     => 'Delivered',
+                        'completed' => $order->status === 'delivered',
+                        'timestamp' => $order->delivered_at?->toIso8601String(),
+                    ],
                 ],
             ],
             'total' => (float) $order->total,
