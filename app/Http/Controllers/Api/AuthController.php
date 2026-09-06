@@ -23,9 +23,6 @@ class AuthController extends Controller
         protected AuthService $authService
     ) {}
 
-    /**
-     * Register a new user
-     */
     public function register(RegisterRequest $request): JsonResponse
     {
         try {
@@ -51,9 +48,6 @@ class AuthController extends Controller
 
     }
 
-    /**
-     * Login user
-     */
     public function login(LoginRequest $request): JsonResponse
     {
         try {
@@ -79,9 +73,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Logout user
-     */
     public function logout(Request $request): JsonResponse
     {
         try {
@@ -94,9 +85,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Forgot password - send OTP
-     */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
 
@@ -109,9 +97,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Verify OTP
-     */
     public function verifyOtp(VerifyOtpRequest $request): JsonResponse
     {
         try {
@@ -131,9 +116,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Reset password
-     */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         try {
@@ -155,9 +137,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Get authenticated user
-     */
     public function me(Request $request): JsonResponse
     {
         return self::successResponse(
@@ -188,9 +167,6 @@ class AuthController extends Controller
         return self::successResponse("Account deleted successfully", null, 200);
     }
 
-    /**
-     * Change password for authenticated user
-     */
     public function changePassword(ChangePasswordRequest $request): JsonResponse
     {
         try {
