@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\StripePaymentCallbackController;
-use App\Http\Controllers\WebChatController;
+use App\Http\Controllers\Api\V1\Order\StripePaymentCallbackController\StripePaymentCallbackController;
+use App\Http\Controllers\Api\V1\Support\WebChatController\WebChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,5 +33,5 @@ Route::prefix('chat')->group(function () {
 Route::prefix('payment')->group(function () {
     Route::get('/success', [StripePaymentCallbackController::class, 'success'])->name('payment.success');
     Route::get('/cancel', [StripePaymentCallbackController::class, 'cancel'])->name('payment.cancel');
-    
+
 });

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\SpecialNote;
+use App\Models\Order\SpecialNote\SpecialNote;
 use Illuminate\Database\Seeder;
 
 class SpecialNoteSeeder extends Seeder

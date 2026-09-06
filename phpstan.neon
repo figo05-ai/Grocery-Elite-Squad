@@ -1,0 +1,21 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - routes/
+        - bootstrap/
+
+    level: 2
+    
+    treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        - '#Unsafe usage of new static\(\).#'
+        - '#Access to an undefined property .*#'
+        - '#Trait .* is used zero times and is not analysed.#'
+
+    excludePaths:
+        - bootstrap/cache/
+        - vendor/

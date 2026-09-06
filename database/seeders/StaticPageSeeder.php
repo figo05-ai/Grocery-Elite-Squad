@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\StaticPage;
+use App\Models\System\StaticPage\StaticPage;
 use Illuminate\Database\Seeder;
 
 class StaticPageSeeder extends Seeder
@@ -17,7 +17,7 @@ class StaticPageSeeder extends Seeder
                 'meta_title' => 'Terms and Conditions',
                 'meta_description' => 'Read our terms and conditions',
                 'order' => 1,
-                'is_published' => true
+                'is_published' => true,
             ],
             [
                 'slug' => 'policies',
@@ -26,7 +26,7 @@ class StaticPageSeeder extends Seeder
                 'meta_title' => 'Policies - Privacy, Return, Refund & Cookie',
                 'meta_description' => 'Our privacy policy, return policy, refund policy and cookie policy',
                 'order' => 2,
-                'is_published' => true
+                'is_published' => true,
             ],
             [
                 'slug' => 'about-us',
@@ -35,7 +35,7 @@ class StaticPageSeeder extends Seeder
                 'meta_title' => 'About Us',
                 'meta_description' => 'Learn more about our company',
                 'order' => 3,
-                'is_published' => true
+                'is_published' => true,
             ],
             [
                 'slug' => 'contact-us',
@@ -44,8 +44,8 @@ class StaticPageSeeder extends Seeder
                 'meta_title' => 'Contact Us',
                 'meta_description' => 'Get in touch with us',
                 'order' => 4,
-                'is_published' => true
-            ]
+                'is_published' => true,
+            ],
         ];
 
         foreach ($pages as $page) {
@@ -62,9 +62,9 @@ class StaticPageSeeder extends Seeder
 
     private function getPoliciesContent(): string
     {
-        return $this->getPrivacyContent() . "\n\n" .
-            $this->getReturnContent() . "\n\n" .
-            $this->getRefundContent() . "\n\n" .
+        return $this->getPrivacyContent()."\n\n".
+            $this->getReturnContent()."\n\n".
+            $this->getRefundContent()."\n\n".
             $this->getCookieContent();
     }
 
@@ -77,6 +77,7 @@ class StaticPageSeeder extends Seeder
                 <h2>Process</h2>
                 <p>To request a return, contact our support...</p>';
     }
+
     private function getTermsContent(): string
     {
         return '<h1>Terms and Conditions</h1>

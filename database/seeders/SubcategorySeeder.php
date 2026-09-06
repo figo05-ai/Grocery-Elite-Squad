@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Subcategory;
-use App\Models\Category;
+use App\Models\Catalog\Category\Category;
+use App\Models\Catalog\Subcategory\Subcategory;
 use Illuminate\Database\Seeder;
 
 class SubcategorySeeder extends Seeder
@@ -17,6 +17,7 @@ class SubcategorySeeder extends Seeder
 
         if ($categories->isEmpty()) {
             $this->command->warn('No categories found. Please run CategorySeeder first.');
+
             return;
         }
 
@@ -55,7 +56,7 @@ class SubcategorySeeder extends Seeder
 
         foreach ($subcategoriesData as $categoryName => $subcategories) {
             $category = $categories->firstWhere('name', $categoryName);
-            
+
             if ($category) {
                 foreach ($subcategories as $subcategoryData) {
                     Subcategory::create([

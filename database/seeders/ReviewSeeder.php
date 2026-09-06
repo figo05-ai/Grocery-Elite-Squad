@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Review;
-use App\Models\User;
-use App\Models\Meal;
+use App\Models\Catalog\Meal\Meal;
+use App\Models\Catalog\Review\Review;
+use App\Models\User\User\User;
 use Illuminate\Database\Seeder;
 
 class ReviewSeeder extends Seeder
@@ -13,25 +13,25 @@ class ReviewSeeder extends Seeder
     {
         $users = User::limit(10)->get();
         $meals = Meal::all();
-        
+
         if ($users->isEmpty() || $meals->isEmpty()) {
             return;
         }
-        
+
         $reviews = [];
-        
+
         foreach ($meals as $meal) {
             // Create 3-5 reviews per meal
             $reviewCount = rand(3, 5);
-            
+
             for ($i = 0; $i < $reviewCount; $i++) {
                 $user = $users->random();
-                
+
                 // Ensure user doesn't review same meal twice
-                if (!Review::where('user_id', $user->id)
+                if (! Review::where('user_id', $user->id)
                     ->where('meal_id', $meal->id)
                     ->exists()) {
-                    
+
                     $reviews[] = [
                         'user_id' => $user->id,
                         'meal_id' => $meal->id,
@@ -45,10 +45,10 @@ class ReviewSeeder extends Seeder
                 }
             }
         }
-        
+
         Review::insert($reviews);
     }
-    
+
     private function generateReviewComment($mealName): string
     {
         $comments = [
@@ -63,19 +63,19 @@ class ReviewSeeder extends Seeder
             "The $mealName was decent, but nothing extraordinary.",
             "Loved every bite of the $mealName! Will be coming back for more.",
         ];
-        
+
         return $comments[array_rand($comments)];
     }
-    
+
     private function generateRandomImages(): array
     {
         $images = [];
         $imageCount = rand(0, 3);
-        
+
         for ($i = 0; $i < $imageCount; $i++) {
-            $images[] = 'reviews/review_' . rand(1, 10) . '.jpg';
+            $images[] = 'reviews/review_'.rand(1, 10).'.jpg';
         }
-        
+
         return $images;
     }
 }

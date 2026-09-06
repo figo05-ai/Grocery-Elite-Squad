@@ -12,19 +12,23 @@
     "require": {
         "php": "^8.3",
         "barryvdh/laravel-dompdf": "^3.1",
+        "dedoc/scramble": "^0.13.42",
         "filament/filament": "^3.3",
         "google/apiclient": "^2.19",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
+        "laramint/laravel-brain": "^2.6",
         "laravel/ai": "^0.7",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10",
+        "spatie/laravel-permission": "^8.3",
         "stripe/stripe-php": "^19.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
@@ -75,5 +79,10 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [{
+        "name": "laravel-brain",
+        "type": "vcs",
+        "url": "https://github.com/laramint/laravel-brain.git"
+    }]
 }

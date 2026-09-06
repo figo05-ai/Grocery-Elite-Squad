@@ -19,7 +19,7 @@ return new class extends Migration
 
             // Ensure a user can only favorite a meal once
             $table->unique(['user_id', 'meal_id']);
-            
+
             // Indexes for faster queries
             $table->index('user_id');
             $table->index('meal_id');

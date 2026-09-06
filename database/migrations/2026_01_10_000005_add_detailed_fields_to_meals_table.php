@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('meals', function (Blueprint $table) {
             // Add subcategory relationship
             $table->foreignId('subcategory_id')->nullable()->after('category_id')->constrained()->onDelete('set null');
-            
+
             // Add new fields
             $table->decimal('rating', 3, 2)->default(0)->after('discount_price')->comment('Average rating (0-5)');
             $table->integer('rating_count')->default(0)->after('rating')->comment('Number of ratings');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('brand')->nullable()->after('features')->comment('Product brand name');
             $table->integer('stock_quantity')->default(0)->after('brand')->comment('Available stock quantity');
             $table->integer('sold_count')->default(0)->after('stock_quantity')->comment('Number of times sold');
-            
+
             // Add indexes
             $table->index('subcategory_id');
             $table->index('rating');
@@ -44,7 +44,7 @@ return new class extends Migration
             $table->dropIndex(['subcategory_id']);
             $table->dropIndex(['rating']);
             $table->dropIndex(['stock_quantity']);
-            
+
             $table->dropColumn([
                 'subcategory_id',
                 'rating',

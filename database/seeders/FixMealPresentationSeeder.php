@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Meal;
+use App\Models\Catalog\Meal\Meal;
 use Illuminate\Database\Seeder;
 
 class FixMealPresentationSeeder extends Seeder
@@ -57,4 +57,3 @@ class FixMealPresentationSeeder extends Seeder
         $this->command?->info("FixMealPresentationSeeder updated images={$updatedImages}, ratings={$updatedRatings}.");
     }
 }
-
