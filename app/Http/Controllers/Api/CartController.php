@@ -53,7 +53,7 @@ class CartController extends Controller
     public function addItem(Request $request): JsonResponse
     {
         try {
-            $maxPerProduct = config('cart.max_quantity_per_product', 10);
+            $maxPerProduct = $this->maxPerProduct();
             $validated = $request->validate([
                 'meal_id' => ['required', 'exists:meals,id'],
                 'quantity' => ['required', 'integer', 'min:1', 'max:' . $maxPerProduct],
@@ -80,14 +80,6 @@ class CartController extends Controller
                     'message' => 'This meal is out of stock',
                 ], 400);
             }
-
-            // Check if meal has expired
-            // if ($meal->isExpired()) {
-            //     return response()->json([
-            //         'success' => false,
-            //         'message' => 'This meal has expired',
-            //     ], 400);
-            // }
 
             // Check stock quantity
             if ($meal->stock_quantity < $validated['quantity']) {
@@ -139,10 +131,7 @@ class CartController extends Controller
                 ]);
             }
 
-            $cart->calculateTotals();
-            $cart->load(['items.meal.category', 'items.meal.subcategory']);
-
-            DB::commit();
+            $this->refreshCart($cart);
 
             return response()->json([
                 'success' => true,
@@ -171,7 +160,7 @@ class CartController extends Controller
     public function updateItem(Request $request, string $itemId): JsonResponse
     {
         try {
-            $maxPerProduct = config('cart.max_quantity_per_product', 10);
+            $maxPerProduct = $this->maxPerProduct();
             $validated = $request->validate([
                 'quantity' => ['required', 'integer', 'min:1', 'max:' . $maxPerProduct],
             ], [
@@ -180,7 +169,7 @@ class CartController extends Controller
 
             $user = $request->user();
             $cart = $user->getOrCreateCart();
-            
+
             $cartItem = $cart->items()->findOrFail($itemId);
             $meal = $cartItem->meal;
 
@@ -198,10 +187,7 @@ class CartController extends Controller
                 'quantity' => $validated['quantity'],
             ]);
 
-            $cart->calculateTotals();
-            $cart->load(['items.meal.category', 'items.meal.subcategory']);
-
-            DB::commit();
+            $this->refreshCart($cart);
 
             return response()->json([
                 'success' => true,
@@ -237,17 +223,14 @@ class CartController extends Controller
         try {
             $user = $request->user();
             $cart = $user->getOrCreateCart();
-            
+
             $cartItem = $cart->items()->findOrFail($itemId);
 
             DB::beginTransaction();
 
             $cartItem->delete();
 
-            $cart->calculateTotals();
-            $cart->load(['items.meal.category', 'items.meal.subcategory']);
-
-            DB::commit();
+            $this->refreshCart($cart);
 
             return response()->json([
                 'success' => true,
@@ -298,6 +281,18 @@ class CartController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    private function maxPerProduct(): int
+    {
+        return config('cart.max_quantity_per_product', 10);
+    }
+
+    private function refreshCart(Cart $cart): void
+    {
+        $cart->calculateTotals();
+        $cart->load(['items.meal.category', 'items.meal.subcategory']);
+        DB::commit();
     }
 
     /**
