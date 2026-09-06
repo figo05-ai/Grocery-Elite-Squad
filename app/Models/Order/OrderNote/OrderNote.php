@@ -2,9 +2,9 @@
 
 namespace App\Models\Order\OrderNote;
 
+use App\Models\Order\Order\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Order\Order\Order;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderNote extends Model

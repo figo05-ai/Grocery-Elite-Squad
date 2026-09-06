@@ -10,6 +10,7 @@ use App\Models\Order\Order\Order;
 use App\Models\Order\OrderItem\OrderItem;
 use App\Models\User\Address\Address;
 use App\Models\User\User\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,10 +24,10 @@ class OrderApiTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+        $this->seed(RolesAndPermissionsSeeder::class);
 
         $this->user = User::factory()->create();
-        $this->user->assignRole("customer");
+        $this->user->assignRole('customer');
     }
 
     public function test_user_can_list_orders()

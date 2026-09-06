@@ -7,8 +7,8 @@ use App\Http\Resources\Order\OrderResource\OrderResource;
 use App\Models\Order\Order\Order;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class GetOrdersController extends Controller
 {

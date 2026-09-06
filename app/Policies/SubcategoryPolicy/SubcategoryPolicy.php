@@ -2,7 +2,6 @@
 
 namespace App\Policies\SubcategoryPolicy;
 
-use App\Models\Catalog\Subcategory\Subcategory;
 use App\Models\User\User\User;
 
 class SubcategoryPolicy

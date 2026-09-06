@@ -2,9 +2,9 @@
 
 namespace App\Models\Catalog\Subcategory;
 
+use App\Models\Catalog\Meal\Meal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\Meal\Meal;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;

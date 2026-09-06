@@ -2,8 +2,8 @@
 
 namespace App\Models\Support\SupportReport;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User\User\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SupportReport extends Model

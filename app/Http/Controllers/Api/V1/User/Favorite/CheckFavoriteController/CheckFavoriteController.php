@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\V1\User\Favorite\CheckFavoriteController;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\Favorite\Favorite;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
-use App\Models\User\Favorite\Favorite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CheckFavoriteController extends Controller
 {

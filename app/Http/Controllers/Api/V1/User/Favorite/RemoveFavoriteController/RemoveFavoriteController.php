@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Services\User\Favorite\ToggleFavoriteService\ToggleFavoriteService;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RemoveFavoriteController extends Controller
 {

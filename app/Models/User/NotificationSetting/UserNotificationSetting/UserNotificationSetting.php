@@ -2,9 +2,9 @@
 
 namespace App\Models\User\NotificationSetting\UserNotificationSetting;
 
+use App\Models\User\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User\User\User;
 
 class UserNotificationSetting extends Model
 {

@@ -4,11 +4,12 @@ namespace App\Http\Resources\Order\OrderResource;
 
 use App\Http\Resources\Catalog\Meal\MealResource\MealResource;
 use App\Http\Resources\User\Address\AddressResource\AddressResource;
+use App\Models\Order\Order\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Order\Order\Order
+ * @mixin Order
  */
 class OrderResource extends JsonResource
 {

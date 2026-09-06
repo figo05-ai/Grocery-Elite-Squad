@@ -2,9 +2,9 @@
 
 namespace App\Models\User\Address;
 
+use App\Models\User\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Address extends Model

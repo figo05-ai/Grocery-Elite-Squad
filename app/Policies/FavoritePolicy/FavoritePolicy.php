@@ -2,7 +2,6 @@
 
 namespace App\Policies\FavoritePolicy;
 
-use App\Models\User\Favorite\Favorite;
 use App\Models\User\User\User;
 
 class FavoritePolicy

@@ -2,8 +2,10 @@
 
 namespace Database\Factories\User\Favorite;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Catalog\Meal\Meal;
 use App\Models\User\Favorite\Favorite;
+use App\Models\User\User\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FavoriteFactory extends Factory
 {
@@ -12,8 +14,8 @@ class FavoriteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => \App\Models\User\User\User::factory(),
-            'meal_id' => \App\Models\Catalog\Meal\Meal::factory(),
+            'user_id' => User::factory(),
+            'meal_id' => Meal::factory(),
         ];
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Models\Catalog\Category;
 
+use App\Models\Catalog\Meal\Meal;
+use App\Models\Catalog\Subcategory\Subcategory;
 use App\Models\Concerns\Filterable\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\Meal\Meal;
-use App\Models\Catalog\Subcategory\Subcategory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 

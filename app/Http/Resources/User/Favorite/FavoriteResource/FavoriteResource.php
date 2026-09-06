@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources\User\Favorite\FavoriteResource;
 
+use App\Models\User\Favorite\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\User\Favorite\Favorite
+ * @mixin Favorite
  */
 class FavoriteResource extends JsonResource
 {

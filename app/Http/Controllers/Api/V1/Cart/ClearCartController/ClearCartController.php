@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api\V1\Cart\ClearCartController;
 use App\Http\Controllers\Controller;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
-use App\Models\Cart\Cart\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ClearCartController extends Controller
 {

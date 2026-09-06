@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources\Catalog\Subcategory\SubcategoryResource;
 
+use App\Models\Catalog\Subcategory\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Catalog\Subcategory\Subcategory
+ * @mixin Subcategory
  */
 class SubcategoryResource extends JsonResource
 {

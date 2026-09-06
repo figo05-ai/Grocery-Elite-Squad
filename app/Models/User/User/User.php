@@ -4,24 +4,24 @@ namespace App\Models\User\User;
 
 use App\Models\Cart\Cart\Cart;
 use App\Models\Catalog\Meal\Meal;
+use App\Models\Order\Order\Order;
+use App\Models\Support\ChatbotMessage\ChatbotMessage;
 use App\Models\User\Address\Address;
 use App\Models\User\Favorite\Favorite;
+use App\Models\User\NotificationSetting\UserNotificationSetting\UserNotificationSetting;
 use App\Support\Traits\User\HasNotificationPreferences\HasNotificationPreferences;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
-use App\Models\Order\Order\Order;
-use App\Models\Support\ChatbotMessage\ChatbotMessage;
-use App\Models\User\NotificationSetting\UserNotificationSetting\UserNotificationSetting;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Ai\Concerns\HasConversations;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasName
 {
-    use HasApiTokens, HasConversations, HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasApiTokens, HasConversations, HasFactory, HasRoles, Notifiable, SoftDeletes;
     use HasNotificationPreferences;
 
     /** Maximum length for API-validated usernames (registration and profile). */

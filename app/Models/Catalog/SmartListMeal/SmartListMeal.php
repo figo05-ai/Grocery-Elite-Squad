@@ -2,9 +2,9 @@
 
 namespace App\Models\Catalog\SmartListMeal;
 
+use App\Models\Catalog\Meal\Meal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\Meal\Meal;
 
 class SmartListMeal extends Model
 {

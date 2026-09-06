@@ -3,11 +3,12 @@
 namespace App\Http\Resources\User\Profile\ProfileResource;
 
 use App\Http\Resources\User\Address\AddressResource\AddressResource;
+use App\Models\User\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\User\User\User
+ * @mixin User
  */
 class ProfileResource extends JsonResource
 {

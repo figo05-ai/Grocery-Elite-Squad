@@ -4,11 +4,12 @@ namespace App\Http\Resources\Catalog\Meal\MealResource;
 
 use App\Http\Resources\Catalog\Category\CategoryResource\CategoryResource;
 use App\Http\Resources\Catalog\Subcategory\SubcategoryResource\SubcategoryResource;
+use App\Models\Catalog\Meal\Meal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Catalog\Meal\Meal
+ * @mixin Meal
  */
 class MealResource extends JsonResource
 {

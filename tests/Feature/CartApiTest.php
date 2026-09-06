@@ -2,27 +2,28 @@
 
 namespace Tests\Feature;
 
+use App\Models\Cart\Cart\Cart;
 use App\Models\User\User\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Cart\Cart\Cart;
 
 class CartApiTest extends TestCase
 {
     use RefreshDatabase;
 
     protected User $user;
+
     protected Cart $cart;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->seed(RolesAndPermissionsSeeder::class);
         $this->user = User::factory()->create();
         $this->user->assignRole('customer');
-        
+
         $this->cart = Cart::factory()->create(['user_id' => $this->user->id]);
     }
 

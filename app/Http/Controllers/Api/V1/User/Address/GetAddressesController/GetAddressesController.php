@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api\V1\User\Address\GetAddressesController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\Address\AddressResource\AddressResource;
+use App\Models\User\Address\Address;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
-use App\Models\User\Address\Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class GetAddressesController extends Controller
 {

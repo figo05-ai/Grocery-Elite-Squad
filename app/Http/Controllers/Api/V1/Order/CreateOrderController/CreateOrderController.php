@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Api\V1\Order\CreateOrderController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest\StoreOrderRequest;
 use App\Http\Resources\Order\OrderResource\OrderResource;
+use App\Models\Order\Order\Order;
 use App\Services\Order\CreateOrderService\CreateOrderService;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Order\Order\Order;
 
 class CreateOrderController extends Controller
 {

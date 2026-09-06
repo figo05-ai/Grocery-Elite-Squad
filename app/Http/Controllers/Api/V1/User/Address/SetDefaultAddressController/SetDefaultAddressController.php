@@ -7,8 +7,8 @@ use App\Http\Resources\User\Address\AddressResource\AddressResource;
 use App\Services\User\Address\SetDefaultAddressService\SetDefaultAddressService;
 use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SetDefaultAddressController extends Controller
 {

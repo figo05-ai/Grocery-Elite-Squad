@@ -4,7 +4,6 @@ namespace App\Policies\MealPolicy;
 
 use App\Models\Catalog\Meal\Meal;
 use App\Models\User\User\User;
-use Illuminate\Auth\Access\Response;
 
 class MealPolicy
 {

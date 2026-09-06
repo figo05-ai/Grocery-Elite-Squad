@@ -4,14 +4,13 @@ namespace App\Policies\OrderPolicy;
 
 use App\Models\Order\Order\Order;
 use App\Models\User\User\User;
-use Illuminate\Auth\Access\Response;
 
 class OrderPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view all orders') 
-            || $user->hasPermissionTo('view own orders') 
+        return $user->hasPermissionTo('view all orders')
+            || $user->hasPermissionTo('view own orders')
             || $user->hasPermissionTo('view assigned orders');
     }
 

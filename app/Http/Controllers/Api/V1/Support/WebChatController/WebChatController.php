@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Support\WebChatController;
 use App\Http\Controllers\Controller;
 use App\Models\User\User\User;
 use App\Services\Support\ChatbotService\ChatbotService;
+use App\Support\Traits\ApiResponse\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,8 @@ use Throwable;
 
 class WebChatController extends Controller
 {
+    use ApiResponse;
+
     public function __construct(private readonly ChatbotService $chatbotService) {}
 
     public function index()
@@ -41,16 +44,17 @@ class WebChatController extends Controller
 
             session(['chat_conversation_id' => $result['conversation_id']]);
 
-            return response()->json([
+            return self::successResponse('Message processed successfully', [
                 'answer' => $result['answer'],
-            ]);
+            ], 200);
 
         } catch (Throwable $e) {
             Log::error('Web chat error', ['message' => $e->getMessage()]);
 
-            return response()->json([
-                'error' => config('app.debug') ? $e->getMessage() : 'Failed to get a response. Please try again.',
-            ], 500);
+            return self::errorResponse(
+                config('app.debug') ? $e->getMessage() : 'Failed to get a response. Please try again.',
+                500
+            );
         }
     }
 
@@ -58,7 +62,7 @@ class WebChatController extends Controller
     {
         $request->session()->forget('chat_conversation_id');
 
-        return response()->json(['reset' => true]);
+        return self::successResponse('Chat session reset successfully', ['reset' => true], 200);
     }
 
     private function getOrCreateDemoUser(): User

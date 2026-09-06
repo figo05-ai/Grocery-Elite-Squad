@@ -2,8 +2,9 @@
 
 namespace Database\Factories\User\Address;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User\Address\Address;
+use App\Models\User\User\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AddressFactory extends Factory
 {
@@ -12,7 +13,7 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => \App\Models\User\User\User::factory(),
+            'user_id' => User::factory(),
             'label' => 'Home',
             'full_name' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,

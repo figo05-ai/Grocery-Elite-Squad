@@ -3,11 +3,12 @@
 namespace App\Http\Resources\Cart\CartResource;
 
 use App\Http\Resources\Catalog\Meal\MealResource\MealResource;
+use App\Models\Cart\Cart\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Cart\Cart\Cart
+ * @mixin Cart
  */
 class CartResource extends JsonResource
 {

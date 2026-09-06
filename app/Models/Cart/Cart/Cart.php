@@ -3,9 +3,9 @@
 namespace App\Models\Cart\Cart;
 
 use App\Models\Cart\CartItem\CartItem;
+use App\Models\User\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 

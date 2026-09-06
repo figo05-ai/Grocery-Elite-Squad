@@ -2,9 +2,9 @@
 
 namespace App\Ai\Catalog\GroceryAssistant;
 
-use App\Ai\Tools\CheckOffersTool;
-use App\Ai\Tools\ListCategoriesTool;
-use App\Ai\Tools\SearchProductsTool;
+use App\Ai\Catalog\CheckOffersTool\CheckOffersTool;
+use App\Ai\Catalog\ListCategoriesTool\ListCategoriesTool;
+use App\Ai\Catalog\SearchProductsTool\SearchProductsTool;
 use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;

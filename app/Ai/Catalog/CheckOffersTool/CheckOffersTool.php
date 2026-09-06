@@ -2,7 +2,7 @@
 
 namespace App\Ai\Catalog\CheckOffersTool;
 
-use App\Models\Offer;
+use App\Models\Catalog\Offer\Offer;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;

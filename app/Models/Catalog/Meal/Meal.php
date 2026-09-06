@@ -4,6 +4,7 @@ namespace App\Models\Catalog\Meal;
 
 use App\Models\Cart\CartItem\CartItem;
 use App\Models\Catalog\Category\Category;
+use App\Models\Catalog\Review\Review;
 use App\Models\Catalog\Subcategory\Subcategory;
 use App\Models\Concerns\Filterable\Filterable;
 use App\Models\User\Favorite\Favorite;
@@ -12,7 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\Review\Review;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

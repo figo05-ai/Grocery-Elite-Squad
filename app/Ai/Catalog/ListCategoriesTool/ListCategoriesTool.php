@@ -2,7 +2,7 @@
 
 namespace App\Ai\Catalog\ListCategoriesTool;
 
-use App\Models\Category;
+use App\Models\Catalog\Category\Category;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\User\Address\Address;
 use App\Models\User\User\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User\Address\Address;
 
 class AddressApiTest extends TestCase
 {
@@ -17,7 +17,7 @@ class AddressApiTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->seed(RolesAndPermissionsSeeder::class);
         $this->user = User::factory()->create();
         $this->user->assignRole('customer');
@@ -35,18 +35,18 @@ class AddressApiTest extends TestCase
             'city' => 'Cairo',
             'state' => 'Cairo',
             'postal_code' => '11511',
-            'country' => 'Egypt'
+            'country' => 'Egypt',
         ]);
         $response->assertStatus(201);
     }
-    
+
     public function test_user_can_list_addresses()
     {
         Address::factory()->create(['user_id' => $this->user->id]);
         $response = $this->actingAs($this->user)->getJson('/api/v1/user/addresses');
         $response->assertStatus(200);
     }
-    
+
     public function test_user_can_delete_address()
     {
         $address = Address::factory()->create(['user_id' => $this->user->id]);

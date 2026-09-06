@@ -2,12 +2,12 @@
 
 namespace App\Models\Catalog\Review;
 
+use App\Models\Catalog\Meal\Meal;
 use App\Models\Concerns\Filterable\Filterable;
+use App\Models\User\User\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\Meal\Meal;
-use App\Models\User\User\User;
 
 class Review extends Model
 {
