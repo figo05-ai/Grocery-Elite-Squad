@@ -20,9 +20,6 @@ class CartController extends Controller
         protected ShippingService $shippingService,
     ) {}
 
-    /**
-     * Get user's cart, optionally with a shipping fee preview.
-     */
     public function index(Request $request): JsonResponse
     {
         try {
@@ -52,9 +49,6 @@ class CartController extends Controller
         }
     }
 
-    /**
-     * Add an item to the cart.
-     */
     public function addItem(AddCartItemRequest $request): JsonResponse
     {
         try {
@@ -83,9 +77,6 @@ class CartController extends Controller
         }
     }
 
-    /**
-     * Update a cart item's quantity.
-     */
     public function updateItem(UpdateCartItemRequest $request, string $itemId): JsonResponse
     {
         try {
@@ -119,9 +110,6 @@ class CartController extends Controller
         }
     }
 
-    /**
-     * Remove an item from the cart.
-     */
     public function removeItem(Request $request, string $itemId): JsonResponse
     {
         try {
@@ -150,9 +138,6 @@ class CartController extends Controller
         }
     }
 
-    /**
-     * Clear all items from the cart.
-     */
     public function clear(Request $request): JsonResponse
     {
         try {
