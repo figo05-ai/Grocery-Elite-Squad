@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\User\User\User;
 use Illuminate\Database\Seeder;
 
 class NotificationSettingsSeeder extends Seeder

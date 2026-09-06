@@ -3,17 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MealResource\Pages;
-use App\Filament\Resources\MealResource\RelationManagers;
-use App\Models\Category;
-use App\Models\Meal;
-use App\Models\Subcategory;
+use App\Models\Catalog\Meal\Meal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class MealResource extends Resource
 {
@@ -40,8 +37,7 @@ class MealResource extends Resource
                     ->rules(['required', 'exists:categories,id']),
                 Forms\Components\Select::make('subcategory_id')
                     ->label('Subcategory')
-                    ->relationship('subcategory', 'name', fn (Builder $query, callable $get) =>
-                        $query->where('category_id', $get('category_id'))
+                    ->relationship('subcategory', 'name', fn (Builder $query, callable $get) => $query->where('category_id', $get('category_id'))
                     )
                     ->searchable()
                     ->preload()
@@ -50,7 +46,7 @@ class MealResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                    ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
                     ->rules(['required', 'string', 'max:255']),
                 Forms\Components\TextInput::make('slug')
                     ->required()

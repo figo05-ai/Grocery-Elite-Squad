@@ -9,7 +9,7 @@ class FaqFactory extends Factory
     public function definition(): array
     {
         $categories = ['General', 'Technical', 'Billing', 'Account', 'Other'];
-        
+
         return [
             'question' => $this->faker->sentence(),
             'answer' => $this->faker->paragraph(3),
@@ -32,4 +32,4 @@ class FaqFactory extends Factory
             'category' => $category,
         ]);
     }
-}   
+}

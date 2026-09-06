@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Meal;
+use App\Models\Catalog\Meal\Meal;
 use Illuminate\Database\Seeder;
 
 class LargeMealSeeder extends Seeder
@@ -13,6 +13,7 @@ class LargeMealSeeder extends Seeder
         $force = (string) env('FORCE_LARGE_SEED', '') === '1';
         if (! $force && Meal::query()->count() >= 500) {
             $this->command?->info('LargeMealSeeder skipped (meals already seeded).');
+
             return;
         }
 
@@ -32,4 +33,3 @@ class LargeMealSeeder extends Seeder
         $this->command?->info("LargeMealSeeder completed ({$count} meals).");
     }
 }
-

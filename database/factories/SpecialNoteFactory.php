@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\SpecialNote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SpecialNote>
+ * @extends Factory<SpecialNote>
  */
 class SpecialNoteFactory extends Factory
 {

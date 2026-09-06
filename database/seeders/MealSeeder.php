@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Meal;
-use App\Models\Category;
-use App\Models\Subcategory;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
+use App\Models\Catalog\Category\Category;
+use App\Models\Catalog\Meal\Meal;
+use App\Models\Catalog\Subcategory\Subcategory;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class MealSeeder extends Seeder
 {

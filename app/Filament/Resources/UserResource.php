@@ -3,8 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Models\User;
-use App\Rules\UsernameMustContainLetter;
+use App\Models\User\User\User;
+use App\Rules\User\UsernameMustContainLetter\UsernameMustContainLetter;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

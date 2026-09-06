@@ -4,16 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
-use App\Models\Address;
-use App\Models\Order;
-use App\Models\User;
+use App\Models\Order\Order\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
@@ -37,8 +34,7 @@ class OrderResource extends Resource
                     ->preload(),
                 Forms\Components\Select::make('address_id')
                     ->label('Address')
-                    ->relationship('address', 'address_line_1', fn (Builder $query, callable $get) =>
-                        $query->where('user_id', $get('user_id'))
+                    ->relationship('address', 'address_line_1', fn (Builder $query, callable $get) => $query->where('user_id', $get('user_id'))
                     )
                     ->searchable()
                     ->preload(),

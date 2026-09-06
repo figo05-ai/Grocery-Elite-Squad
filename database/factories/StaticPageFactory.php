@@ -13,7 +13,7 @@ class StaticPageFactory extends Factory
             'privacy-policy' => 'Privacy Policy',
             'about-us' => 'About Us',
             'refund-policy' => 'Refund Policy',
-            'shipping-policy' => 'Shipping Policy'
+            'shipping-policy' => 'Shipping Policy',
         ];
 
         $slug = $this->faker->randomElement(array_keys($pages));
@@ -23,11 +23,11 @@ class StaticPageFactory extends Factory
             'slug' => $slug,
             'title' => $title,
             'content' => $this->faker->paragraphs(10, true),
-            'meta_title' => $title . ' | ' . config('app.name'),
+            'meta_title' => $title.' | '.config('app.name'),
             'meta_description' => $this->faker->sentence(15),
             'meta_keywords' => $this->faker->words(5),
             'is_published' => true,
-            'order' => $this->faker->numberBetween(1, 10)
+            'order' => $this->faker->numberBetween(1, 10),
         ];
     }
 

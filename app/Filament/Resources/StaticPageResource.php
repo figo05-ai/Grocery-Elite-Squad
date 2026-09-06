@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\StaticPageResource\Pages;
-use App\Filament\Resources\StaticPageResource\RelationManagers;
-use App\Models\StaticPage;
+use App\Models\System\StaticPage\StaticPage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StaticPageResource extends Resource
 {

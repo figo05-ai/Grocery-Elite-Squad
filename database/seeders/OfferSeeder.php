@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Offer;
-use Illuminate\Database\Seeder;
+use App\Models\Catalog\Offer\Offer;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class OfferSeeder extends Seeder
 {
