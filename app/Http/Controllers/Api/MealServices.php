@@ -4,6 +4,10 @@ namespace App\Services;
 
 use App\Models\Meal;
 use Illuminate\Database\Eloquent\Collection;
+use App\Filters\MealFilter;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+ use App\Http\Resources\MealResource;
 
 class MealService
 {
@@ -79,9 +83,22 @@ class MealService
     /**
      * Get available brands.
      */
-    public function brands()
-    {
-        return Meal::distinct()
-            ->pluck('brand');
-    }
+    public function brands(): Collection
+{
+    return Meal::distinct()
+        ->pluck('brand');
+}
+   public function allMeals(Request $request): Collection
+{
+    $query = Meal::with([
+        'category',
+        'subcategory',
+    ])->available();
+
+    $filter = new MealFilter($request);
+
+    $filter->apply($query);
+
+    return $query->get();
+}
 }
