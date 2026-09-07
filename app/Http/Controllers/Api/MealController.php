@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Resources\MealResource;
 use App\Http\Controllers\Controller;
 use App\Models\Meal;
 use App\Services\FrequencyService;
@@ -9,9 +9,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Throwable;
+use App\Services\MealService;
 
 class MealController extends Controller
 {
+    public function __construct(
+    private readonly FrequencyService $frequencyService,
+    private readonly MealService $mealService,
+) {}
+    
     /**
      * Get meals the authenticated user orders most often (personalized by frequency type).
      * Query param: frequency_type = daily|weekly|monthly (default: weekly).
@@ -35,9 +41,12 @@ class MealController extends Controller
             $subcategoryId = $request->input('subcategory_id');
             $subcategoryId = is_numeric($subcategoryId) ? (int) $subcategoryId : null;
 
-            $service = app(FrequencyService::class);
-            $meals = $service->getFrequentlyOrderedMeals($user, $frequencyType, 50, $subcategoryId);
-
+            $meals = $this->frequencyService->getFrequentlyOrderedMeals(
+    $user,
+    $frequencyType,
+    50,
+    $subcategoryId
+);
             $data = $meals->map(function ($meal) {
                 return [
                     'id' => $meal->id,
@@ -88,348 +97,150 @@ class MealController extends Controller
         }
     }
 
-    public function moreToExplore(Request $request)
-    {
-        $meals = Meal::with('category')
-            ->available()
-            ->orderBy('created_at', 'desc')
-            ->get();
+    public function moreToExplore(Request $request): JsonResponse
+{
+    $meals = $this->mealService->moreToExplore();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'More to explore retrieved successfully',
+        'data' => MealResource::collection($meals),
+    ]);
+}
+
+  public function brands(Request $request): JsonResponse
+{
+    $brands = $this->mealService->brands();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Brands retrieved successfully',
+        'data' => $brands,
+    ]);
+}
+
+ public function slider(Request $request): JsonResponse
+{
+    $meals = $this->mealService->sliderMeals();
+
+    return response()->json([
+        'success' => true,
+        'message' => "Today's meals retrieved successfully",
+        'data' => MealResource::collection($meals),
+    ]);
+}
+
+   public function bestSells(Request $request): JsonResponse
+{
+    $meals = $this->mealService->bestSells();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Best sells retrieved successfully',
+        'data' => MealResource::collection($meals),
+    ]);
+}
+
+  public function newProducts(Request $request): JsonResponse
+{
+    try {
+
+        $meals = $this->mealService->newProducts();
 
         return response()->json([
             'success' => true,
-            'message' => 'More to explore retrieved successfully',
-            'data' => $meals,
+            'message' => 'New products retrieved successfully',
+            'data' => MealResource::collection($meals),
         ]);
-    }
 
-    public function brands(Request $request)
-    {
-        $brands = Meal::distinct()->pluck('brand');
+    } catch (\Exception $e) {
 
         return response()->json([
-            'success' => true,
-            'message' => 'Brands retrieved successfully',
-            'data' => $brands,
-        ]);
+            'success' => false,
+            'message' => 'Failed to retrieve meals',
+            'error' => $e->getMessage(),
+        ],500);
+
     }
-
-    public function slider(Request $request)
-    {
-        $meals = Meal::with('category')
-            ->available()
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($meal) {
-                return [
-                    'id' => $meal->id,
-                    'title' => $meal->title,
-                    'slug' => $meal->slug,
-                    'description' => $meal->description,
-                    'image_url' => $meal->image_url,
-                    'offer_title' => $meal->offer_title,
-                    ...$meal->getApiPriceAttributes(),
-                    'has_offer' => $meal->hasOffer(),
-                    'category' => [
-                        'id' => $meal->category->id,
-                        'name' => $meal->category->name,
-                    ],
-                    'features' => $meal->features,
-                    'available_date' => $meal->available_date,
-                    'created_at' => $meal->created_at,
-                ];
-            });
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Today\'s meals retrieved successfully',
-            'data' => $meals,
-        ]);
-    }
-
-    public function bestSells(Request $request)
-    {
-        $meals = Meal::with('category')
-            ->available()
-
-            ->take(10)
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Best sells retrieved successfully',
-            'data' => $meals,
-        ]);
-    }
-
-    public function newProducts(Request $request)
-    {
-
-        try {
-            $meals = Meal::with('category')
-                ->available()
-                ->orderBy('created_at', 'desc')
-                ->get();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'New products retrieved successfully',
-                'data' => $meals,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve meals',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    }
+}
 
     /**
      * Get hot / Ready-to-eat meals only.
      */
-    public function hot(Request $request): JsonResponse
-    {
-        try {
-            $meals = Meal::with('category')
-                ->available()
-                ->hot()
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->map(function ($meal) {
-                    return [
-                        'id' => $meal->id,
-                        'title' => $meal->title,
-                        'slug' => $meal->slug,
-                        'description' => $meal->description,
-                        'image_url' => $meal->image_url,
-                        'offer_title' => $meal->offer_title,
-                        ...$meal->getApiPriceAttributes(),
-                        'has_offer' => $meal->hasOffer(),
-                        'rating' => (float) $meal->rating,
-                        'rating_count' => (int) $meal->rating_count,
-                        'brand' => $meal->brand,
-                        'stock_quantity' => (int) $meal->stock_quantity,
-                        'in_stock' => $meal->isInStock(),
-                        'category' => [
-                            'id' => $meal->category->id,
-                            'name' => $meal->category->name,
-                        ],
-                        'features' => $meal->features,
-                        'available_date' => $meal->available_date,
-                        'created_at' => $meal->created_at,
-                    ];
-                });
+  public function hot(Request $request): JsonResponse
+{
+    try {
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Hot meals retrieved successfully',
-                'data' => $meals,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve hot meals',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        $meals = $this->mealService->hotMeals();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Hot meals retrieved successfully',
+            'data' => MealResource::collection($meals),
+        ]);
+
+    } catch (\Exception $e) {
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to retrieve hot meals',
+            'error' => $e->getMessage(),
+        ],500);
+
     }
-
+}
     /**
      * Get today's deals (meals with active discounts)
      */
-    public function today(Request $request): JsonResponse
-    {
-        try {
-            $meals = Meal::with('category')
-                ->available()
-                ->withActiveDiscount()
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->map(function ($meal) {
-                    return [
-                        'id' => $meal->id,
-                        'title' => $meal->title,
-                        'slug' => $meal->slug,
-                        'description' => $meal->description,
-                        'image_url' => $meal->image_url,
-                        'offer_title' => $meal->offer_title,
-                        ...$meal->getApiPriceAttributes(),
-                        'has_offer' => $meal->hasOffer(),
-                        'rating' => (float) $meal->rating,
-                        'rating_count' => (int) $meal->rating_count,
-                        'brand' => $meal->brand,
-                        'stock_quantity' => (int) $meal->stock_quantity,
-                        'in_stock' => $meal->isInStock(),
-                        'category' => [
-                            'id' => $meal->category->id,
-                            'name' => $meal->category->name,
-                        ],
-                        'features' => $meal->features,
-                        'available_date' => $meal->available_date,
-                        'created_at' => $meal->created_at,
-                    ];
-                });
+public function today(Request $request): JsonResponse
+{
+    try {
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Today\'s deals retrieved successfully',
-                'data' => $meals,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve today\'s deals',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        $meals = $this->mealService->todayDeals();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Today's deals retrieved successfully",
+            'data' => MealResource::collection($meals),
+        ]);
+
+    } catch (\Exception $e) {
+
+        return response()->json([
+            'success' => false,
+            'message' => "Failed to retrieve today's deals",
+            'error' => $e->getMessage(),
+        ],500);
+
     }
+}
 
     /**
      * Get all meals
      */
-    public function index(Request $request): JsonResponse
-    {
-        try {
-            $user = $request->user();
-            $query = Meal::with(['category', 'subcategory'])->available();
+   public function index(Request $request): JsonResponse
+{
+    try {
 
-            // SEARCH by title or description
-            if ($request->has('search') && $request->filled('search')) {
-                $search = $request->input('search');
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', "%{$search}%")
-                        ->orWhere('description', 'like', "%{$search}%");
-                });
-            }
+        $meals = $this->mealService->allMeals($request);
 
-            // FILTER by category
-            if ($request->has('category_id')) {
-                $query->where('category_id', $request->input('category_id'));
-            }
+        return response()->json([
+            'success' => true,
+            'message' => 'Meals retrieved successfully',
+            'data' => MealResource::collection($meals),
+            'total_count' => $meals->count(),
+        ]);
 
-            // FILTER by subcategory
-            if ($request->has('subcategory_id')) {
-                $query->where('subcategory_id', $request->input('subcategory_id'));
-            }
+    } catch (\Exception $e) {
 
-            // FILTER by featured (featured=1/true → featured only, featured=0/false → non-featured only)
-            if ($request->has('featured')) {
-                $request->boolean('featured') ? $query->featured() : $query->where('is_featured', false);
-            }
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to retrieve meals',
+            'error' => $e->getMessage(),
+        ],500);
 
-            // FILTER by in stock (in_stock=1/true → in stock only, in_stock=0/false → out of stock only)
-            if ($request->has('in_stock')) {
-                $request->boolean('in_stock') ? $query->inStock() : $query->outOfStock();
-            }
-
-            // FILTER by price range
-            if ($request->has('min_price')) {
-                $minPrice = $request->input('min_price');
-                $query->whereRaw('COALESCE(discount_price, price) >= ?', [$minPrice]);
-            }
-            if ($request->has('max_price')) {
-                $maxPrice = $request->input('max_price');
-                $query->whereRaw('COALESCE(discount_price, price) <= ?', [$maxPrice]);
-            }
-
-            // FILTER by rating
-            if ($request->has('min_rating')) {
-                $minRating = $request->input('min_rating');
-                $query->where('rating', '>=', $minRating);
-            }
-
-            // FILTER by brand
-            if ($request->has('brand')) {
-                $query->where('brand', $request->input('brand'));
-            }
-
-            // SORTING (sort_by: created_at|price|rating|title|sold_count|newest, sort_order: asc|desc)
-            $sortBy = $request->input('sort_by', 'created_at');
-            $sortOrder = strtolower($request->input('sort_order', 'desc')) === 'asc' ? 'asc' : 'desc';
-            if ($sortBy === 'newest') {
-                $sortBy = 'created_at';
-                $sortOrder = 'desc';
-            }
-            $allowedSortFields = ['created_at', 'price', 'rating', 'title', 'sold_count'];
-            if (in_array($sortBy, $allowedSortFields)) {
-                if ($sortBy === 'price') {
-                    $query->orderByRaw('COALESCE(discount_price, price) '.$sortOrder);
-                } else {
-                    $query->orderBy($sortBy, $sortOrder);
-                }
-            } else {
-                $query->orderBy('created_at', 'desc');
-            }
-
-            // Get favorite meal IDs for the authenticated user
-            $favoriteMealIds = [];
-            if ($user) {
-                $favoriteMealIds = $user->favorites()->pluck('meal_id')->toArray();
-            }
-
-            $meals = $query->get()
-                ->map(function ($meal) use ($favoriteMealIds) {
-                    return [
-                        'id' => $meal->id,
-                        'title' => $meal->title,
-                        'slug' => $meal->slug,
-                        'description' => $meal->description,
-                        'image_url' => $meal->image_url,
-                        'offer_title' => $meal->offer_title,
-                        ...$meal->getApiPriceAttributes(),
-                        'has_offer' => $meal->hasOffer(),
-                        'rating' => (float) $meal->rating,
-                        'rating_count' => (int) $meal->rating_count,
-                        'size' => $meal->size,
-                        'brand' => $meal->brand,
-                        'stock_quantity' => $meal->stock_quantity,
-                        'in_stock' => $meal->isInStock(),
-                        'is_featured' => $meal->is_featured,
-                        'sold_count' => $meal->sold_count,
-                        'category' => [
-                            'id' => $meal->category->id,
-                            'name' => $meal->category->name,
-                        ],
-                        'subcategory' => $meal->subcategory ? [
-                            'id' => $meal->subcategory->id,
-                            'name' => $meal->subcategory->name,
-                        ] : null,
-                        'features' => $meal->features,
-                        'is_favorited' => in_array($meal->id, $favoriteMealIds),
-                        'created_at' => $meal->created_at,
-                    ];
-                });
-
-            $totalCount = $meals->count();
-            $isEmpty = $totalCount === 0;
-
-            return response()->json(array_merge([
-                'success' => true,
-                'message' => $isEmpty ? 'No products match your filters.' : 'Meals retrieved successfully',
-                'data' => $meals,
-                'total_count' => $totalCount,
-                'filters_applied' => [
-                    'search' => $request->input('search'),
-                    'category_id' => $request->input('category_id'),
-                    'subcategory_id' => $request->input('subcategory_id'),
-                    'min_price' => $request->input('min_price'),
-                    'max_price' => $request->input('max_price'),
-                    'min_rating' => $request->input('min_rating'),
-                    'brand' => $request->input('brand'),
-                    'featured' => $request->boolean('featured'),
-                    'in_stock' => $request->boolean('in_stock'),
-                    'sort_by' => $sortBy,
-                    'sort_order' => $sortOrder,
-                ],
-            ], $isEmpty ? ['empty_message' => 'No products match the applied filters. Try adjusting your search or filters.'] : []));
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve meals',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
     }
+}
 
     /**
      * Get recommended meals
