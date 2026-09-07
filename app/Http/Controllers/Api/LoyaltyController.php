@@ -10,26 +10,17 @@ use Illuminate\Http\Request;
 class LoyaltyController extends Controller
 {
     public function __construct(
-        private readonly LoyaltyService $loyaltyService,
+        private readonly LoyaltyService $loyaltyService
     ) {}
 
     /**
-     * Loyalty & rewards summary for the authenticated user.
+     * Display the authenticated user's loyalty summary.
      */
     public function index(Request $request): JsonResponse
     {
-        try {
-            return response()->json([
-                'success' => true,
-                'message' => 'Loyalty data retrieved successfully',
-                'data' => $this->loyaltyService->buildSummary($request->user()),
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to retrieve loyalty data',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        return $this->successResponse(
+            'Loyalty data retrieved successfully',
+            $this->loyaltyService->buildSummary($request->user())
+        );
     }
 }
