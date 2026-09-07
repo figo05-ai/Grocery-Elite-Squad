@@ -5,16 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Notification\ClearNotificationRequest;
 use App\Http\Requests\Notification\DestroyMultipleRequest;
-use App\Services\NotificationService;
+use App\Services\NotificationManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function __construct(
-        private NotificationService $notificationService
-    ) {}
-
+   public function __construct(
+    private NotificationManager $notificationManager
+) {}
     /**
      * Get all notifications
      */
@@ -28,7 +27,7 @@ class NotificationController extends Controller
      */
     public function indexWithResources(Request $request): JsonResponse
     {
-        return $this->notificationService->indexWithResources($request);
+       return $this->notificationManager->indexWithResources($request);
     }
 
     /**
@@ -36,7 +35,7 @@ class NotificationController extends Controller
      */
     public function stats(): JsonResponse
     {
-        return $this->notificationService->stats();
+      return $this->notificationManager->stats();
     }
 
     /**
@@ -44,7 +43,7 @@ class NotificationController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        return $this->notificationService->show($id);
+       return $this->notificationManager->show($id);
     }
 
     /**
@@ -76,7 +75,7 @@ class NotificationController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        return $this->notificationService->destroy($id);
+       return $this->notificationManager->destroy($id);
     }
 
     /**
@@ -116,6 +115,7 @@ class NotificationController extends Controller
      */
     public function recent(): JsonResponse
     {
-        return $this->notificationService->recent();
+       return $this->notificationManager->recent();
+
     }
 }
